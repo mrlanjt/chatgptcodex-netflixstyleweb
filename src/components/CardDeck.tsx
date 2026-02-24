@@ -39,34 +39,26 @@ export function CardDeck({ movies, dealtTotal, batchStart, batchSize, onDeal, on
 
   return (
     <section className="deck-wrap" aria-label="movie deck">
-      <button ref={deckButtonRef} className="stack-deck" type="button" onClick={onDeal} disabled={remaining === 0}>
-        <span>点击发牌（每次10张）</span>
+      <button className="stack-deck" type="button" onClick={onDeal} disabled={remaining === 0}>
+        <span>点击发牌（每次5张）</span>
         <strong>{remaining > 0 ? `剩余 ${remaining} 张` : '已全部发完'}</strong>
       </button>
 
-      {shouldShowFloatingDeal && (
-        <motion.button
-          className="floating-deal-btn"
-          type="button"
-          onClick={onDeal}
-          disabled={remaining === 0}
-          aria-label="点击发牌（每次10张）"
-          initial={{ opacity: 0, scale: 0.7, y: -8 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ type: 'spring', stiffness: 260, damping: 18 }}
-        >
-          发牌
-        </motion.button>
-      )}
-
-      <div className="dealt-zone waterfall" aria-live="polite">
+      <div className="dealt-zone" aria-live="polite">
         {dealtMovies.map((movie, i) => (
           <motion.div
             className="deck-card dealt"
             key={movie.id}
-            initial={{ opacity: 0, y: -180, x: 140, scale: 0.7, rotate: -10, filter: 'blur(4px)' }}
+            initial={{
+              opacity: 0,
+              y: -260,
+              x: i % 2 === 0 ? -180 : 180,
+              scale: 0.35,
+              rotate: i % 2 === 0 ? -22 : 22,
+              filter: 'blur(8px)'
+            }}
             animate={{ opacity: 1, y: 0, x: 0, scale: 1, rotate: 0, filter: 'blur(0px)' }}
-            transition={{ type: 'spring', stiffness: 210, damping: 20, delay: i * 0.05 }}
+            transition={{ type: 'spring', stiffness: 260, damping: 18, mass: 0.85, delay: i * 0.08 }}
           >
             <MovieCard movie={movie} onClick={onMovieClick} />
           </motion.div>
