@@ -35,15 +35,29 @@ body { margin: 0; }
 }
 .primary-btn { background: #e50914; color: #fff; }
 .ghost-btn { background: rgba(255,255,255,0.1); color: #fff; }
-.controls { margin-bottom: 1rem; }
+.controls {
+  margin-bottom: 1rem;
+  min-height: 44px;
+}
 
 .deck-wrap {
   position: relative;
-  min-height: 420px;
+  min-height: 860px;
   display: flex;
   justify-content: center;
 }
 
+.deal-hint {
+  position: absolute;
+  top: 132px;
+  z-index: 30;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+}
 .deck-card {
   position: absolute;
   width: min(220px, 44vw);
@@ -101,7 +115,7 @@ body { margin: 0; }
 .modal-card div { padding: 1rem; }
 
 @media (max-width: 768px) {
-  .deck-wrap { min-height: 520px; }
+  .deck-wrap { min-height: 1450px; }
   .deck-card { width: 160px; }
   .modal-card { grid-template-columns: 1fr; }
 }

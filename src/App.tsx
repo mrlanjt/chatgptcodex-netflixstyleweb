@@ -20,11 +20,13 @@ export function App() {
       <Navbar />
       <Banner />
       <section className="controls">
-        <button className="primary-btn" type="button" onClick={toggleDeal}>
-          {isDealt ? 'Reset Deck' : 'Deal Cards'}
-        </button>
+        {isDealt && (
+          <button className="primary-btn" type="button" onClick={toggleDeal}>
+            重新收牌
+          </button>
+        )}
       </section>
-      <CardDeck movies={movies} isDealt={isDealt} onMovieClick={selectMovie} />
+      <CardDeck movies={movies} isDealt={isDealt} onDeal={toggleDeal} onMovieClick={selectMovie} />
       {selectedMovie && <Modal movie={selectedMovie} onClose={() => selectMovie(null)} />}
     </main>
   );
