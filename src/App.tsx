@@ -31,7 +31,7 @@ export function App() {
         dealtTotal={dealtTotal}
         batchStart={batchStart}
         batchSize={batchSize}
-        onDeal={() => dealNext(movies.length, 10)}
+        onDeal={() => dealNext(movies.length, 5)}
         onMovieClick={selectMovie}
       />
       {selectedMovie && <Modal movie={selectedMovie} onClose={() => selectMovie(null)} />}
