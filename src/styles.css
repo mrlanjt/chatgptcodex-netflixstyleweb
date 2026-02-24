@@ -58,7 +58,6 @@ body { margin: 0; }
   padding: 0.4rem 0.9rem;
   cursor: pointer;
 }
-
 .deck-card {
   position: absolute;
   width: min(220px, 44vw);
