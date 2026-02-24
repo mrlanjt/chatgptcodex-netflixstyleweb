@@ -14,7 +14,6 @@ describe('App', () => {
     fireEvent.click(deckButton);
 
     expect(await screen.findByText(/剩余 90 张/i)).toBeInTheDocument();
-
     expect(screen.getByRole('button', { name: /重新收牌/i })).toBeInTheDocument();
   });
 });

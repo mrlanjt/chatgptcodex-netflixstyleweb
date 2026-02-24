@@ -42,7 +42,6 @@ body { margin: 0; }
 
 .deck-wrap {
   position: relative;
-  min-height: 12800px;
   padding-top: 40px;
   display: flex;
   justify-content: center;
@@ -141,7 +140,6 @@ body { margin: 0; }
 .modal-card div { padding: 1rem; }
 
 @media (max-width: 768px) {
-  .deck-wrap { min-height: 14500px; }
   .stack-deck {
     width: 250px;
     height: 170px;

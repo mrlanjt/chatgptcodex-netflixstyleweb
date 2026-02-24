@@ -14,9 +14,11 @@ const COLUMNS = 3;
 export function CardDeck({ movies, dealtCount, onDeal, onMovieClick }: CardDeckProps) {
   const dealtMovies = movies.slice(0, dealtCount);
   const remaining = movies.length - dealtCount;
+  const dealtRows = Math.max(1, Math.ceil(dealtMovies.length / COLUMNS));
+  const deckMinHeight = 420 + dealtRows * 360;
 
   return (
-    <section className="deck-wrap" aria-label="movie deck">
+    <section className="deck-wrap" aria-label="movie deck" style={{ minHeight: `${deckMinHeight}px` }}>
       <button className="stack-deck" type="button" onClick={onDeal} disabled={remaining === 0}>
         <span>点击发牌（每次10张）</span>
         <strong>{remaining > 0 ? `剩余 ${remaining} 张` : '已全部发完'}</strong>
