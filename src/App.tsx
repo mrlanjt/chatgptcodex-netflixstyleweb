@@ -9,16 +9,25 @@ import type { Movie } from './types';
 
 export function App() {
   const [movies, setMovies] = useState<Movie[]>([]);
+  const [activeCategory, setActiveCategory] = useState('');
   const { dealtTotal, batchStart, batchSize, dealNext, resetDeck, selectedMovie, selectMovie } = useMovieStore();
 
   useEffect(() => {
-    getMovies().then(setMovies);
-  }, []);
+    getMovies(activeCategory).then(setMovies);
+  }, [activeCategory]);
+
+  const handleCategorySelect = (category: string) => {
+    setActiveCategory(category);
+    resetDeck();
+  };
 
   return (
     <main className="app">
-      <Navbar />
-      <Banner />
+      <section className="top-row">
+        <Navbar />
+        <Banner activeCategory={activeCategory} onCategorySelect={handleCategorySelect} />
+        <button type="button" className="ghost-btn sign-in-btn">Sign In</button>
+      </section>
       <section className="controls">
         {dealtTotal > 0 && (
           <button className="primary-btn" type="button" onClick={resetDeck}>
