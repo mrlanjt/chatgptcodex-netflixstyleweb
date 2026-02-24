@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
 import type { Movie } from '../types';
 import { MovieCard } from './MovieCard';
 
@@ -14,6 +15,27 @@ type CardDeckProps = {
 export function CardDeck({ movies, dealtTotal, batchStart, batchSize, onDeal, onMovieClick }: CardDeckProps) {
   const dealtMovies = movies.slice(batchStart, batchStart + batchSize);
   const remaining = movies.length - dealtTotal;
+  const deckButtonRef = useRef<HTMLButtonElement | null>(null);
+  const [isDeckVisible, setIsDeckVisible] = useState(true);
+
+  useEffect(() => {
+    const target = deckButtonRef.current;
+    if (!target || typeof IntersectionObserver === 'undefined') {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsDeckVisible(entry.isIntersecting);
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, []);
+
+  const shouldShowFloatingDeal = dealtTotal > 0 && !isDeckVisible;
 
   return (
     <section className="deck-wrap" aria-label="movie deck">

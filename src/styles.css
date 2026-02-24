@@ -99,7 +99,6 @@ body { margin: 0; }
 .stack-deck strong {
   font-size: 0.98rem;
 }
-
 .dealt-zone {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
