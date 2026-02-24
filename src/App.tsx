@@ -9,7 +9,7 @@ import type { Movie } from './types';
 
 export function App() {
   const [movies, setMovies] = useState<Movie[]>([]);
-  const { isDealt, toggleDeal, selectedMovie, selectMovie } = useMovieStore();
+  const { dealtCount, dealNext, resetDeck, selectedMovie, selectMovie } = useMovieStore();
 
   useEffect(() => {
     getMovies().then(setMovies);
@@ -20,13 +20,18 @@ export function App() {
       <Navbar />
       <Banner />
       <section className="controls">
-        {isDealt && (
-          <button className="primary-btn" type="button" onClick={toggleDeal}>
+        {dealtCount > 0 && (
+          <button className="primary-btn" type="button" onClick={resetDeck}>
             重新收牌
           </button>
         )}
       </section>
-      <CardDeck movies={movies} isDealt={isDealt} onDeal={toggleDeal} onMovieClick={selectMovie} />
+      <CardDeck
+        movies={movies}
+        dealtCount={dealtCount}
+        onDeal={() => dealNext(movies.length, 10)}
+        onMovieClick={selectMovie}
+      />
       {selectedMovie && <Modal movie={selectedMovie} onClose={() => selectMovie(null)} />}
     </main>
   );
