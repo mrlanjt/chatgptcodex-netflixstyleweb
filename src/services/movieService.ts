@@ -39,7 +39,6 @@ const MOCK_MOVIES: Movie[] = Array.from({ length: 100 }, (_, i) => {
     title: `${base.title} #${i + 1}`
   };
 });
-
 export async function getMovies(category?: string): Promise<Movie[]> {
   await new Promise((resolve) => setTimeout(resolve, 120));
   if (!category) return MOCK_MOVIES;
