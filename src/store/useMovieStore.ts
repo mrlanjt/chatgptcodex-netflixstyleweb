@@ -2,7 +2,9 @@ import { create } from 'zustand';
 import type { Movie } from '../types';
 
 type MovieState = {
-  dealtCount: number;
+  dealtTotal: number;
+  batchStart: number;
+  batchSize: number;
   selectedMovie: Movie | null;
   dealNext: (total: number, step?: number) => void;
   resetDeck: () => void;
@@ -10,12 +12,26 @@ type MovieState = {
 };
 
 export const useMovieStore = create<MovieState>((set) => ({
-  dealtCount: 0,
+  dealtTotal: 0,
+  batchStart: 0,
+  batchSize: 0,
   selectedMovie: null,
   dealNext: (total, step = 10) =>
-    set((state) => ({
-      dealtCount: Math.min(total, state.dealtCount + step)
-    })),
-  resetDeck: () => set({ dealtCount: 0, selectedMovie: null }),
+    set((state) => {
+      if (state.dealtTotal >= total) {
+        return state;
+      }
+
+      const nextStart = state.dealtTotal;
+      const nextSize = Math.min(step, total - nextStart);
+
+      return {
+        dealtTotal: nextStart + nextSize,
+        batchStart: nextStart,
+        batchSize: nextSize,
+        selectedMovie: null
+      };
+    }),
+  resetDeck: () => set({ dealtTotal: 0, batchStart: 0, batchSize: 0, selectedMovie: null }),
   selectMovie: (movie) => set({ selectedMovie: movie })
 }));

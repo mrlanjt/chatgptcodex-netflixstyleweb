@@ -3,17 +3,22 @@ import { App } from './App';
 import { useMovieStore } from './store/useMovieStore';
 
 describe('App', () => {
-  it('deals 10 cards each click and keeps stack visible', async () => {
-    useMovieStore.setState({ dealtCount: 0, selectedMovie: null });
+  it('deals 10 cards per click and replaces previous dealt cards', async () => {
+    useMovieStore.setState({ dealtTotal: 0, batchStart: 0, batchSize: 0, selectedMovie: null });
     render(<App />);
 
-    const remaining100 = await screen.findByText(/剩余 100 张/i);
-    expect(remaining100).toBeInTheDocument();
+    expect(await screen.findByText(/剩余 100 张/i)).toBeInTheDocument();
 
-    const deckButton = screen.getByRole('button', { name: /点击发牌（每次10张）/i });
-    fireEvent.click(deckButton);
+    const dealButton = screen.getByRole('button', { name: /点击发牌（每次10张）/i });
+    fireEvent.click(dealButton);
 
     expect(await screen.findByText(/剩余 90 张/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /重新收牌/i })).toBeInTheDocument();
+    expect(screen.getByText('Shadow Protocol #1')).toBeInTheDocument();
+
+    fireEvent.click(dealButton);
+
+    expect(await screen.findByText(/剩余 80 张/i)).toBeInTheDocument();
+    expect(screen.queryByText('Shadow Protocol #1')).not.toBeInTheDocument();
+    expect(screen.getByText('Orbit 9 #11')).toBeInTheDocument();
   });
 });
